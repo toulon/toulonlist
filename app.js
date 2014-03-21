@@ -25,9 +25,23 @@ app.use(express.static(path.join(__dirname, 'public')));
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
-
+var i = 0,
+  counts = []
 app.get('/', routes.index);
 app.get('/users', user.list);
+
+app.get('/edit', function (req, res) {
+  res.render('edit-form')
+})
+
+app.post('/joe', function (req, res) {
+  i++;
+  res.send("Response back was " + req.body.cnt)
+  cnt = req.body.cnt;
+  console.log("cnt = " + cnt);
+  counts[i] = cnt;
+  res.redirect('/edit')
+});
 
 http.createServer(app).listen(app.get('port'), function () {
   console.log('Express server listening on port ' + app.get('port'));
